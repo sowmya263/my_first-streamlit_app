@@ -1,9 +1,11 @@
+from re import T
+from turtle import circle, color, title
 import streamlit as st
 import random
 import altair as alt
 import numpy as np
 import pandas as pd
-
+from vega_datasets import data
 
 st.header('Homework 1')
 
@@ -85,17 +87,19 @@ st.markdown(
 
 st.markdown("""
 The 2 changes I made were:
-- Change 1 : color is changed
-- Change 2 : title is added
+- Change 1 : Tooltip and color is added
+- Change 2 : Made the graph interactive, can zoom in and zoom out easily
 """
 )
 
 
-source = pd.read_json('imdb.json')
-
+source = data.cars()
 st.write(source)
-bar = alt.Chart(source).mark_bar(color='#03cffc').encode(
-    alt.X("IMDB_Rating:Q", bin=True, title="IMDB Rating"),
-   alt.Y('count()', title="Records"),
-)
-st.altair_chart(bar, use_container_width=True)
+
+bubble = alt.Chart(source).mark_point().encode(
+    x='Horsepower',
+    y='Miles_per_Gallon',
+    size='Acceleration',color='Acceleration', tooltip = ['Horsepower','Miles_per_Gallon']
+).interactive()
+
+st.altair_chart(bubble)
