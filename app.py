@@ -1,5 +1,3 @@
-from re import T, U
-from turtle import circle, color, title
 import streamlit as st
 import random
 import altair as alt
